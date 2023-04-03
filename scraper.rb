@@ -34,7 +34,11 @@ module FetchCreatures
         classification.each do |a|
           classifications << a.text
         end
-        description = turtHtml.search('div#mw-content-text > p').first.to_s
+        unless turtHtml.search('div#mw-content-text > p').first.nil?
+          description = turtHtml.search('div#mw-content-text > p').first.text
+        else
+          description = ''
+        end
         creature_info = acc[name.downcase] ||= {}
         creature_info.merge!({name: title},{level: level},{url: creature_url},{areas: areas},{classifications: classifications},{description: description.chomp})
       }
